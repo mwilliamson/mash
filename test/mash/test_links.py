@@ -1,6 +1,6 @@
 from nose.tools import assert_equals
 
-from mash.links import prune, find_path_in_tree
+from mash.links import prune, find_path_in_tree, tree_to_html
 
 def test_find_path_in_tree_returns_singleton_of_zero_for_root_path():
     tree = {
@@ -105,3 +105,40 @@ def test_pruning_links_leaves_only_direct_children_of_elements_on_current_path()
         ]
     }
     assert_equals(tree, expected_pruned_tree)
+
+def test_tree_to_html_converts_tree_with_no_children_to_its_name_only():
+    assert_equals("zwobble.org", tree_to_html({"url": "/", "label": "zwobble.org"}))
+
+def test_tree_to_html_converts_tree_to_nested_lists():
+    tree = {
+        "url": "/", "label": "zwobble.org",
+        "children": [
+            {
+                "url": "/projects/", "label": "Projects",
+                "children": [
+                    {"url": "/projects/funk/", "label": "Funk"},
+                    {"url": "/projects/zuice/", "label": "Zuice"}
+                ]
+            },
+            {"url": "/blog/", "label": "Blog"}
+        ]
+    }
+    expected_tree_html =\
+"""zwobble.org
+<ul>
+<li>
+Projects
+<ul>
+<li>
+Funk
+</li>
+<li>
+Zuice
+</li>
+</ul>
+</li>
+<li>
+Blog
+</li>
+</ul>"""
+    assert_equals(expected_tree_html, tree_to_html(tree))

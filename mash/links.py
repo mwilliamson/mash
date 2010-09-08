@@ -19,3 +19,18 @@ def prune_to_id(tree, id, current_id=[0]):
 def prune(tree, path):
     id = find_path_in_tree(tree, path)
     prune_to_id(tree, id)
+
+def tree_to_html_builder(tree, html):
+    html.append(tree["label"])
+    if "children" in tree:
+        html.append("<ul>")
+        for child_tree in tree["children"]:
+            html.append("<li>")
+            tree_to_html_builder(child_tree, html)
+            html.append("</li>")
+        html.append("</ul>")
+
+def tree_to_html(tree):
+    html = []
+    tree_to_html_builder(tree, html)
+    return '\n'.join(html)
