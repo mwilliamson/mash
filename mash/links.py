@@ -21,7 +21,7 @@ def prune(tree, path):
     prune_to_id(tree, id)
 
 def tree_to_html_builder(tree, html):
-    html.append(tree["label"])
+    html.append('<a href="%s">%s</a>' % (tree["url"], tree["label"]))
     if "children" in tree:
         html.append("<ul>")
         for child_tree in tree["children"]:

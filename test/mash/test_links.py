@@ -107,7 +107,7 @@ def test_pruning_links_leaves_only_direct_children_of_elements_on_current_path()
     assert_equals(tree, expected_pruned_tree)
 
 def test_tree_to_html_converts_tree_with_no_children_to_its_name_only():
-    assert_equals("zwobble.org", tree_to_html({"url": "/", "label": "zwobble.org"}))
+    assert_equals('<a href="/">zwobble.org</a>', tree_to_html({"url": "/", "label": "zwobble.org"}))
 
 def test_tree_to_html_converts_tree_to_nested_lists():
     tree = {
@@ -124,21 +124,21 @@ def test_tree_to_html_converts_tree_to_nested_lists():
         ]
     }
     expected_tree_html =\
-"""zwobble.org
+"""<a href="/">zwobble.org</a>
 <ul>
 <li>
-Projects
+<a href="/projects/">Projects</a>
 <ul>
 <li>
-Funk
+<a href="/projects/funk/">Funk</a>
 </li>
 <li>
-Zuice
+<a href="/projects/zuice/">Zuice</a>
 </li>
 </ul>
 </li>
 <li>
-Blog
+<a href="/blog/">Blog</a>
 </li>
 </ul>"""
     assert_equals(expected_tree_html, tree_to_html(tree))
