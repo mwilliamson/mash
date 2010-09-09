@@ -1,3 +1,5 @@
+import cgi
+
 def find_path_in_tree(tree, path, id=[0]):
     if path == tree["url"]:
         return id
@@ -20,16 +22,8 @@ def prune(tree, path):
     id = find_path_in_tree(tree, path)
     prune_to_id(tree, id)
 
-html_escape_table = {
-    "&": "&amp;",
-    '"': "&quot;",
-    "'": "&apos;",
-    ">": "&gt;",
-    "<": "&lt;",
-    }
-
 def html_escape(text):
-    return "".join(html_escape_table.get(c, c) for c in text)
+    return cgi.escape(text, True)
 
 def tree_to_html_builder(tree, html):
     html.append('<a href="%s">%s</a>' % (html_escape(tree["url"]), html_escape(tree["label"])))
