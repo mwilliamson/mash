@@ -31,15 +31,17 @@ def generate(template_path, source_dir, static_dir, target_dir):
             else:
                 raise RuntimeError("Unrecognised file type: %s" % (filename,))
             full_contents = template.replace("<!-- CONTENT -->", contents)
+            
+            path_components = root[len(source_dir)+1:], re.sub(r".[^.]+$", ".html", filename)
+            
             nav_placeholder = "<!-- NAVIGATION -->"
             if nav_placeholder in full_contents:
                 nav_tree = json.loads(open("navigation.links").read())
                 # FIXME: shouldn't use os.path.join since it depends on the OS
-                path = os.path.join(root[len(source_dir)+1:], filename)
-                mash.links.prune(nav_tree, path)
+                mash.links.prune(nav_tree, os.path.join("/", *path_components))
                 nav_str = mash.links.tree_to_html(nav_tree)
                 full_contents = full_contents.replace(nav_placeholder, nav_str)
-            target_path = os.path.join(target_dir, root[len(source_dir)+1:], re.sub(r".[^.]+$", ".html", filename))
+            target_path = os.path.join(target_dir, *path_components)
             print target_path
             mkdir_p(os.path.dirname(target_path))
             target = open(target_path, "w")
