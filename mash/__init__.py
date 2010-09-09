@@ -34,8 +34,10 @@ def generate(template_path, source_dir, static_dir, target_dir):
             nav_placeholder = "<!-- NAVIGATION -->"
             if nav_placeholder in full_contents:
                 nav_tree = json.loads(open("navigation.links").read())
-                # FIXME: should prune to current path
-                mash.links.prune(nav_tree, "/")
+                # FIXME: shouldn't use os.path.join since it depends on the OS
+                path = os.path.join(root[len(source_dir)+1:], filename)
+                print path
+                mash.links.prune(nav_tree, path)
                 nav_str = mash.links.tree_to_html(nav_tree)
                 full_contents = full_contents.replace(nav_placeholder, nav_str)
             target_path = os.path.join(target_dir, root[len(source_dir)+1:], re.sub(r".[^.]+$", ".html", filename))

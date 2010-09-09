@@ -11,7 +11,13 @@ def find_path_in_tree(tree, path, id=[0]):
             return result
 
 def prune_to_id(tree, id, current_id=[0]):
-    if "children" in tree:
+    if "children" not in tree:
+        return
+    if id is None:
+        for child_tree in tree["children"]:
+            if "children" in child_tree:
+                del child_tree["children"]
+    else:
         if current_id == id[:len(current_id)]:
             for index, child_tree in enumerate(tree["children"]):
                 prune_to_id(child_tree, id, current_id + [index])

@@ -105,6 +105,31 @@ def test_pruning_links_leaves_only_direct_children_of_elements_on_current_path()
         ]
     }
     assert_equals(tree, expected_pruned_tree)
+    
+def test_pruning_links_leaves_only_root_and_its_children_if_path_is_not_found():
+    tree = {
+        "url": "/",
+        "children": [
+            {
+                "url": "/projects/",
+                "children": [
+                    {"url": "/projects/funk/"},
+                    {"url": "/projects/zuice/"}
+                ]
+            },
+            {"url": "/blog/"}
+        ]
+    }
+    
+    prune(tree, "/projects/hebe/")
+    expected_pruned_tree = {
+        "url": "/",
+        "children": [
+            {"url": "/projects/"},
+            {"url": "/blog/"}
+        ]
+    }
+    assert_equals(tree, expected_pruned_tree)
 
 def test_tree_to_html_converts_tree_with_no_children_to_its_name_only():
     assert_equals('<a href="/">zwobble.org</a>', tree_to_html({"url": "/", "label": "zwobble.org"}))
