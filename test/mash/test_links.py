@@ -109,6 +109,13 @@ def test_pruning_links_leaves_only_direct_children_of_elements_on_current_path()
 def test_tree_to_html_converts_tree_with_no_children_to_its_name_only():
     assert_equals('<a href="/">zwobble.org</a>', tree_to_html({"url": "/", "label": "zwobble.org"}))
 
+def test_tree_to_html_escapes_labels():
+    assert_equals('<a href="/">P &lt;&gt; NP</a>', tree_to_html({"url": "/", "label": "P <> NP"}))
+
+def test_tree_to_html_escapes_urls():
+    assert_equals('<a href="http://www.example.com/src?project=funk&amp;repo=master">Source</a>',
+                  tree_to_html({"url": "http://www.example.com/src?project=funk&repo=master", "label": "Source"}))
+
 def test_tree_to_html_converts_tree_to_nested_lists():
     tree = {
         "url": "/", "label": "zwobble.org",
