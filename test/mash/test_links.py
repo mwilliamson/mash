@@ -33,7 +33,6 @@ def test_find_path_in_tree_returns_none_if_path_not_in_tree():
         ]
     }
     assert_equals(None, find_path_in_tree(tree, "/contact/"))
-    
 
 def test_find_path_in_tree_returns_list_of_indices_to_path():
     tree = {
@@ -50,6 +49,22 @@ def test_find_path_in_tree_returns_list_of_indices_to_path():
         ]
     }
     assert_equals([0, 0, 1], find_path_in_tree(tree, "/projects/zuice/"))
+    
+def test_find_path_in_tree_will_convert_path_ending_in_index_html_to_directory():
+    tree = {
+        "url": "/",
+        "children": [
+            {
+                "url": "/projects/",
+                "children": [
+                    {"url": "/projects/funk/"},
+                    {"url": "/projects/zuice/"}
+                ]
+            },
+            {"url": "/blog/"}
+        ]
+    }
+    assert_equals([0, 0, 1], find_path_in_tree(tree, "/projects/zuice/index.html"))
 
 def test_pruning_links_leaves_only_direct_children_of_elements_on_current_path():
     tree = {

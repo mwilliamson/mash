@@ -36,7 +36,6 @@ def generate(template_path, source_dir, static_dir, target_dir):
                 nav_tree = json.loads(open("navigation.links").read())
                 # FIXME: shouldn't use os.path.join since it depends on the OS
                 path = os.path.join(root[len(source_dir)+1:], filename)
-                print path
                 mash.links.prune(nav_tree, path)
                 nav_str = mash.links.tree_to_html(nav_tree)
                 full_contents = full_contents.replace(nav_placeholder, nav_str)
