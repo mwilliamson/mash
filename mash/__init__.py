@@ -28,11 +28,13 @@ def generate(template_path, source_dir, static_dir, target_dir):
                 contents = source
             elif filename.endswith(".rst"):
                 contents = mash.rst.rst_to_html_fragment(source)
+            elif "." not in filename: # Plaintext
+                contents = "<pre>%s</pre>" % (source, )
             else:
                 raise RuntimeError("Unrecognised file type: %s" % (filename,))
             full_contents = template.replace("<!-- CONTENT -->", contents)
             
-            path_components = root[len(source_dir)+1:], re.sub(r".[^.]+$", ".html", filename)
+            path_components = root[len(source_dir)+1:], re.sub(r"(\.[^\.]+$|$)", ".html", filename)
             
             nav_placeholder = "<!-- NAVIGATION -->"
             if nav_placeholder in full_contents:
