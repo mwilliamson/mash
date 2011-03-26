@@ -1,7 +1,8 @@
 import cgi
 
 def find_path_in_tree(tree, path, id=[0]):
-    if path == tree["url"] or (path.endswith("/index.html") and path[:-len("index.html")] == tree["url"]):
+    url = tree.get("url", None)
+    if path == url or (path.endswith("/index.html") and path[:-len("index.html")] == url):
         return id
     if "children" not in tree:
         return None
