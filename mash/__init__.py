@@ -5,7 +5,7 @@ import mash.rst
 import shutil
 import re
 import mash.links
-import simplejson as json
+import json
 
 def mkdir_p(path):
     if not os.path.isdir(path):
