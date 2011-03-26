@@ -189,3 +189,21 @@ def test_tree_to_html_converts_tree_to_nested_lists():
 </li>
 </ul>"""
     assert_equals(expected_tree_html, tree_to_html(tree))
+    
+def test_tree_to_html_does_not_create_link_for_root_if_it_has_no_url():
+    tree = {
+        "children": [
+            {"url": "/projects/", "label": "Projects"},
+            {"url": "/blog/", "label": "Blog"}
+        ]
+    }
+    expected_tree_html =\
+"""<ul>
+<li>
+<a href="/projects/">Projects</a>
+</li>
+<li>
+<a href="/blog/">Blog</a>
+</li>
+</ul>"""
+    assert_equals(expected_tree_html, tree_to_html(tree))

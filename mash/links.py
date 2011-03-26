@@ -32,7 +32,8 @@ def html_escape(text):
     return cgi.escape(text, True)
 
 def tree_to_html_builder(tree, html):
-    html.append('<a href="%s">%s</a>' % (html_escape(tree["url"]), html_escape(tree["label"])))
+    if "url" in tree:
+        html.append('<a href="%s">%s</a>' % (html_escape(tree["url"]), html_escape(tree["label"])))
     if "children" in tree:
         html.append("<ul>")
         for child_tree in tree["children"]:
